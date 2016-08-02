@@ -47,9 +47,11 @@ RUN git clone https://github.com/carlos8f/zenbrain.git; \
 
 #Setup auto start service
 ADD build/*.sh /
-#RUN mkdir -p /etc/service/zenbot_record; ln -s /service_start_zenbot_record.sh /etc/service/zenbot_record/run; \
-    #mkdir -p /etc/service/zenbot_learn; ln -s /service_start_zenbot_learn.sh /etc/service/zenbot_learn/run; \
-    #chmod 750 /service_start_zenbot*.sh
+RUN mkdir -p /etc/service/zenbot_record; ln -s /service_start_zenbot_record.sh /etc/service/zenbot_record/run; \
+    mkdir -p /etc/service/zenbot_learn; ln -s /service_start_zenbot_learn.sh /etc/service/zenbot_learn/run; \
+    mkdir -p /etc/service/zenbot_listen; ln -s /service_start_zenbot_listen.sh /etc/service/zenbot_listen/run; \
+    mkdir -p /etc/service/zenbot_run; ln -s /service_start_zenbot_run.sh /etc/service/zenbot_run/run; \
+    chmod 750 /service_start_zenbot*.sh
 
 ########################
 WORKDIR /usr/src/zenbot
