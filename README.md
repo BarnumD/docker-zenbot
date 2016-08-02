@@ -1,6 +1,6 @@
 # docker-zenbot
 
-Run carlos8f/zenbot in a docker container.
+Run carlos8f/zenbot in a docker container. You must have a copy of config.js and configure it, at a minimum to use 'mongodb' as your database uri.
 
 ### Start a container and run zenbot manually:
 ```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb --name zenbot barnumd/zenbot:3.0```
