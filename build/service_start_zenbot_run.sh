@@ -4,9 +4,11 @@ then
   cd /usr/src/zenbot
   if [[ $RUNOPTS ]]
   then
-    zenbot run $RUNOPTS
+    echo "run with opts"
+    #zenbot run $RUNOPTS
   else
-    zenbot run --trade
+    #zenbot run --trade
+    zenbot launch map reduce run server
   fi
 fi
 sleep 9999

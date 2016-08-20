@@ -21,36 +21,31 @@ RUN set -ex \
   done
 
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 6.3.0
+ENV NODE_VERSION 6.3.1
 
 RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz" \
   && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
   && gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \
   && grep " node-v$NODE_VERSION-linux-x64.tar.xz\$" SHASUMS256.txt | sha256sum -c - \
   && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
-  && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
+&& rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 ########################
 
 WORKDIR /usr/src
 #Download & setup zenbot 
-RUN git clone https://github.com/carlos8f/zenbrain.git; \
-    git clone https://github.com/carlos8f/zenbot.git; \
-    cd zenbrain; \
+RUN git clone https://github.com/carlos8f/zenbot.git; \
+    cd zenbot; \
     npm install; \
-    npm link; \
-    cd ../zenbot; \
-    git checkout 3.x; \
-    npm install; \
-    npm link zenbrain; \
     rm -Rf /usr/local/bin/zenbot; \
     npm link
 
+
 #Setup auto start service
 ADD build/*.sh /
-RUN mkdir -p /etc/service/zenbot_record; ln -s /service_start_zenbot_record.sh /etc/service/zenbot_record/run; \
-    mkdir -p /etc/service/zenbot_learn; ln -s /service_start_zenbot_learn.sh /etc/service/zenbot_learn/run; \
-    mkdir -p /etc/service/zenbot_listen; ln -s /service_start_zenbot_listen.sh /etc/service/zenbot_listen/run; \
-    mkdir -p /etc/service/zenbot_run; ln -s /service_start_zenbot_run.sh /etc/service/zenbot_run/run; \
+#RUN mkdir -p /etc/service/zenbot_record; ln -s /service_start_zenbot_record.sh /etc/service/zenbot_record/run; \
+#    mkdir -p /etc/service/zenbot_learn; ln -s /service_start_zenbot_learn.sh /etc/service/zenbot_learn/run; \
+#    mkdir -p /etc/service/zenbot_listen; ln -s /service_start_zenbot_listen.sh /etc/service/zenbot_listen/run; \
+RUN    mkdir -p /etc/service/zenbot_run; ln -s /service_start_zenbot_run.sh /etc/service/zenbot_run/run; \
     chmod 750 /service_start_zenbot*.sh
 
 ########################
