@@ -5,10 +5,9 @@ then
   if [[ $RUNOPTS ]]
   then
     echo "run with opts"
-    #zenbot run $RUNOPTS
+    zenbot launch $RUNOPTS
   else
-    #zenbot run --trade
-    zenbot launch map reduce run server
+    zenbot launch map --backfill run --rs btc_usd
   fi
 fi
 sleep 9999
