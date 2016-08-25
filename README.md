@@ -3,21 +3,23 @@
 Run carlos8f/zenbot in a docker container. You must have a copy of config.js and configure it, at a minimum to use 'mongodb' as your database uri.
 
 ### Start a container and run zenbot manually:
-```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb --name zenbot barnumd/zenbot:3.0```
+```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb --name zenbot barnumd/zenbot:3.5.13```
 Enter zenbot commands manually.  (start with `zenbot --help`)
 
-### Start a container that automatically runs all components:
-```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e RECORD=Y -e LEARN=Y -e LISTEN=Y -RUN=Y -e RUNOPTS="--trade" -p 3011:3011 --name zenbot-record barnumd/zenbot:3.0```
+### Start a container that automatically runs all components using btc usd as a default:
+```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e REDUCER=Y -e SERVER=Y -RUN=Y -p 3011:3011 --name zenbot-record barnumd/zenbot:3.5.13```
+### Customize the zenbot parameters
+Use the variables REDUCEROPTS, SERVEROPTS, or RUNOPTS="" to add parameters.
+```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e REDUCER=Y -e SERVER=Y -RUN=Y RUNOPTS="map --backfill run --rs eth_usd" -p 3011:3011 --name zenbot-record barnumd/zenbot:3.5.13```
+
 
 ### Start a container that automatically runs one component:
- * Record
-```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e RECORD=Y --name zenbot-record barnumd/zenbot:3.0```
- * Learn
-```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e LEARN=Y --name zenbot-learn barnumd/zenbot:3.0```
- * Listen
-```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e LISTEN=Y -p 3011:3011 --name zenbot-listen barnumd/zenbot:3.0```
+ * Reducer
+```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e REDUCER=Y --name zenbot-record barnumd/zenbot:3.5.13```
+ * Server
+```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e SERVER=Y --name zenbot-learn barnumd/zenbot:3.5.13```
  * Run
-```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e RUN=Y -e RUNOPTS="--trade" --name zenbot-run barnumd/zenbot:3.0```
+```docker run -d -v /docker/mounts/zenbot/config.js:/usr/src/zenbot/config.js:ro --link mongodb:mongodb -e RUN=Y -e RUNOPTS="map --backfill run --rs btc_usd" --name zenbot-run barnumd/zenbot:3.5.13```
 
 
 ### Requirements
